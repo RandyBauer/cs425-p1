@@ -34,3 +34,41 @@ bool smtp_is_final_line(const char *line)
 
   return line[3] != '-';
 }
+
+bool smtp_text_is_safe(const char *text)
+{
+  if (text == NULL)
+  {
+    return false;
+  }
+
+  for (size_t i = 0; text[i] != '\0'; i++)
+  {
+    if (text[i] == '\r' || text[i] == '\n')
+    {
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+char *smtp_build_command(const char *verb, const char *arg)
+{
+  return verb;
+}
+
+char *smtp_build_path_command(const char *verb, const char *address)
+{
+  return verb;
+}
+
+char *smtp_manage_dot(const char *body)
+{
+  return body;
+}
+
+char *smtp_build_message(const char *from, const char *to, const char *subject, const char *body)
+{
+  return from;
+}

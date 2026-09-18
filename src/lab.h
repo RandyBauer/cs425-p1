@@ -1,14 +1,21 @@
 #ifndef LAB_H
 #define LAB_H
 
-/** * @brief Returns a greeting message.
- *
- * This function returns a string that contains a greeting message.
- * The string is allocated with malloc and should be freed by the caller.
- * @param name The name to include in the greeting.
- * @return A greeting string.
+#include <stdbool.h>
+
+/**
+ * Extracts the three-digit status code from an SMTP reply line.
+ * 
+ * details here
  */
-char* get_greeting(const char* restrict name);
+int smtp_reply_code(const char *line);
+
+/**
+ * Decides if a reply line is the last line of the reply.
+ * 
+ * details here
+ */
+bool smtp_is_final_line(const char *line);
 
 
 #endif // LAB_H

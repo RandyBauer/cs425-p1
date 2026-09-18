@@ -2,33 +2,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *get_greeting(const char *restrict name)
+int smtp_reply_code(const char *line)
 {
-  if (name == NULL)
+  if (line == NULL)
   {
-    return NULL;
+    return -1;
   }
 
-  // Allocate memory for the greeting message
-  int length = snprintf(NULL, 0, "Hello, %s!", name);
-  if (length < 0) // GCOVR_EXCL_START
+  if (line[0] < '2' || line[0] > '5')
   {
-    return NULL; // snprintf failed
-  } // GCOVR_EXCL_STOP
-
-  //Casting is safe here because we know length is non-negative
-  size_t alloc_size = (size_t) length + 1; // +1 for the null terminator
-  char *greeting = malloc( alloc_size);
-
-
-  if (greeting == NULL) // GCOVR_EXCL_START
+    return -1;
+  }
+  if (line[1] < '0' || line[1] > '9')
   {
-    return NULL; // Memory allocation failed
-  }  // GCOVR_EXCL_STOP
+    return -1;
+  }
+  if (line[2] < '0' || line[2] > '9')
+  {
+    return -1;
+  }
 
+  return (line[0] - '0') * 100 + (line[1] - '0') * 10 + (line[2] - '0');
+}
 
-  // Create the greeting message
-  snprintf(greeting, alloc_size, "Hello, %s!", name);
+bool smtp_is_final_line(const char *line)
+{
+  if (smtp_reply_code(line) < 0)
+  {
+    return true;
+  }
 
-  return greeting;
+  return line[3] != '-';
 }

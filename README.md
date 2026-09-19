@@ -52,8 +52,8 @@ Port 25 is blocked; use `-p 2525` or `-p 587`.
 - `smtp_is_final_line` checks the character after the code. Space is the last
   line, hyphen is not.
 - `smtp_text_is_safe` rejects CR or LF in an address or subject.
-- `smtp_build_command builds VERB arg\r\n.` HELO, DATA, QUIT.
-- `smtp_build_path_command builds VERB:<address>\r\n.` MAIL FROM and RCPT TO.
+- `smtp_build_command` builds `VERB arg\r\n`. HELO, DATA, QUIT.
+- `smtp_build_path_command` builds VERB:<address>\r\n. MAIL FROM and RCPT TO.
   No space around the colon, angle brackets required.
 - `smtp_manage_dot` gives every body line a CRLF ending and doubles a leading
   period.
@@ -68,7 +68,7 @@ Checks the status code each time.
 and a context pointer. All input and output goes through them.
 
 The struct holds the receive buffer. TCP is a byte stream, so a reply can arrive
-in pieces and two replies can arrive together. smtp_read_line checks the buffer
+in pieces and two replies can arrive together. `smtp_read_line` checks the buffer
 before reading more, and leftover bytes stay for the next call.
 
 ### Layer 3: the socket
